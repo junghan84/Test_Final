@@ -8,20 +8,22 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
-import Home from './pages/Home';
+import Nav from './pages/Nav';
+import Projects from './pages/Projects';
+import Project from './pages/Project';
+import Brief from './pages/Brief';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Header from './components/Header';
-import Footer from './components/Footer';
+import NewBrief from'./pages/NewBrief';
+
+
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
-
-
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
@@ -42,18 +44,34 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
+        {/* <div className="flex-column justify-flex-start min-100-vw"> */}
           <Header />
+          {/* </div> */}
           <div className="container">
             <Routes>
               <Route 
                 path="/"
-                element={<Home />}
+                element={<Projects />}
+              />
+              <Route 
+                path="/nav"
+                element={<Nav />}
+              />
+              <Route 
+                path="/project"
+                element={<Project />}
+              />
+              <Route 
+                path="/brief"
+                element={<Brief />}
+              />
+              <Route 
+                path="/newbrief"
+                element={<NewBrief />}
               />
               <Route 
                 path="/login"
@@ -67,14 +85,13 @@ function App() {
                 path="/me"
                 element={<Profile />}
               />
-              {/* <Route 
+              <Route 
                 path="/profiles/:username"
                 element={<Profile />}
-              /> */}
+              />
             </Routes>
           </div>
-          <Footer />
-        </div>
+        {/* </div> */}
       </Router>
     </ApolloProvider>
   );
